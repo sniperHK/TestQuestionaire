@@ -82,14 +82,22 @@ async function loadData() {
 }
 
 // ===== STATS =====
+// ===== COLUMN NAME CONSTANTS =====
+const COL = {
+  TIMESTAMP: '時間戳記', NAME: '姓名', ROLE: '身分', TRAINING: '過去訓練',
+  DATES: '可用時間',
+  EFF1: '探頭信心', EFF2: '影像信心', EFF3: '主動信心', EFF4: '整合信心',
+  MOTIVATION: '學習動機'
+};
+
 function renderStats(rows) {
   document.getElementById('statTotal').textContent = rows.length;
   document.getElementById('statPGY').textContent =
-    rows.filter(r => String(r['身分'] || '').startsWith('PGY')).length;
+    rows.filter(r => String(r[COL.ROLE] || '').startsWith('PGY')).length;
   document.getElementById('statResident').textContent =
-    rows.filter(r => ['R1','R2','R3'].includes(String(r['身分'] || ''))).length;
+    rows.filter(r => ['R1','R2','R3'].includes(String(r[COL.ROLE] || ''))).length;
   document.getElementById('statFellow').textContent =
-    rows.filter(r => r['身分'] === 'Fellow').length;
+    rows.filter(r => r[COL.ROLE] === 'Fellow').length;
 }
 
 // ===== CHARTS =====
@@ -108,7 +116,7 @@ function destroyChart(id) {
 function renderRoleChart(rows) {
   destroyChart('role');
   const counts = {};
-  rows.forEach(r => { const v = r['身分'] || '未填'; counts[v] = (counts[v] || 0) + 1; });
+  rows.forEach(r => { const v = r[COL.ROLE] || '未填'; counts[v] = (counts[v] || 0) + 1; });
   const labels = Object.keys(counts);
   const data = Object.values(counts);
 
@@ -129,7 +137,7 @@ function renderDatesChart(rows) {
   const counts = Object.fromEntries(dateLabels.map(d => [d, 0]));
 
   rows.forEach(r => {
-    const selected = String(r['選擇日期'] || '').split(',').map(s => s.trim());
+    const selected = String(r[COL.DATES] || '').split(',').map(s => s.trim());
     selected.forEach(d => { if (counts[d] !== undefined) counts[d]++; });
   });
 
@@ -157,7 +165,7 @@ function renderEfficacyChart(rows) {
   destroyChart('efficacy');
   if (rows.length === 0) return;
 
-  const keys = ['效能_探頭','效能_影像判讀','效能_主動使用','效能_臨床整合'];
+  const keys = [COL.EFF1, COL.EFF2, COL.EFF3, COL.EFF4];
   const labels = ['選擇探頭','影像判讀','主動使用','臨床整合'];
   const avgs = keys.map(k => {
     const vals = rows.map(r => parseFloat(r[k])).filter(v => !isNaN(v));
@@ -192,7 +200,7 @@ function renderMotivationChart(rows) {
   const counts = Object.fromEntries(motOptions.map(m => [m, 0]));
 
   rows.forEach(r => {
-    const mots = String(r['學習動機'] || '').split(',').map(s => s.trim());
+    const mots = String(r[COL.MOTIVATION] || '').split(',').map(s => s.trim());
     mots.forEach(m => { if (counts[m] !== undefined) counts[m]++; });
   });
 
@@ -225,21 +233,21 @@ function renderTable(rows) {
     return;
   }
 
-  const sorted = [...rows].sort((a, b) => new Date(b['時間戳記']) - new Date(a['時間戳記']));
+  const sorted = [...rows].sort((a, b) => new Date(b[COL.TIMESTAMP]) - new Date(a[COL.TIMESTAMP]));
   tbody.innerHTML = sorted.slice(0, 50).map(r => {
-    const effKeys = ['效能_探頭','效能_影像判讀','效能_主動使用','效能_臨床整合'];
+    const effKeys = [COL.EFF1, COL.EFF2, COL.EFF3, COL.EFF4];
     const effVals = effKeys.map(k => parseFloat(r[k])).filter(v => !isNaN(v));
     const effAvg = effVals.length ? (effVals.reduce((a,b) => a+b, 0) / effVals.length).toFixed(1) : '—';
-    const ts = r['時間戳記'] ? new Date(r['時間戳記']).toLocaleString('zh-TW', { month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' }) : '—';
+    const ts = r[COL.TIMESTAMP] ? new Date(r[COL.TIMESTAMP]).toLocaleString('zh-TW', { month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' }) : '—';
 
     return `<tr>
       <td>${ts}</td>
-      <td>${r['姓名'] || '—'}</td>
-      <td>${r['身分'] || '—'}</td>
-      <td>${r['訓練次數'] || '—'}</td>
-      <td>${r['選擇日期'] || '—'}</td>
+      <td>${r[COL.NAME] || '—'}</td>
+      <td>${r[COL.ROLE] || '—'}</td>
+      <td>${r[COL.TRAINING] || '—'}</td>
+      <td>${r[COL.DATES] || '—'}</td>
       <td>${effAvg}</td>
-      <td>${(r['學習動機'] || '—').substring(0, 30)}</td>
+      <td>${(r[COL.MOTIVATION] || '—').substring(0, 30)}</td>
     </tr>`;
   }).join('');
 }
@@ -255,17 +263,16 @@ function getDemoData() {
     const selectedDates = dateOptions.filter(() => Math.random() > 0.5).join(', ') || '3/11';
     const selectedMot = motivations.filter(() => Math.random() > 0.5).join(', ') || motivations[0];
     return {
-      '時間戳記': new Date(Date.now() - i * 3600000).toISOString(),
-      '姓名': `醫師${i + 1}`,
-      '身分': roles[i % roles.length],
-      '訓練次數': trainings[i % trainings.length],
-      '選擇日期': selectedDates,
-      '效能_探頭': (Math.random() * 3 + 1).toFixed(0),
-      '效能_影像判讀': (Math.random() * 3 + 1).toFixed(0),
-      '效能_主動使用': (Math.random() * 3 + 1).toFixed(0),
-      '效能_臨床整合': (Math.random() * 3 + 1).toFixed(0),
-      '學習動機': selectedMot,
-      '希望學到': '希望學會如何判讀影像'
+      [COL.TIMESTAMP]: new Date(Date.now() - i * 3600000).toISOString(),
+      [COL.NAME]: `醫師${i + 1}`,
+      [COL.ROLE]: roles[i % roles.length],
+      [COL.TRAINING]: trainings[i % trainings.length],
+      [COL.DATES]: selectedDates,
+      [COL.EFF1]: (Math.random() * 3 + 1).toFixed(0),
+      [COL.EFF2]: (Math.random() * 3 + 1).toFixed(0),
+      [COL.EFF3]: (Math.random() * 3 + 1).toFixed(0),
+      [COL.EFF4]: (Math.random() * 3 + 1).toFixed(0),
+      [COL.MOTIVATION]: selectedMot
     };
   });
 }

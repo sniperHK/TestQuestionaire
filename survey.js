@@ -92,7 +92,8 @@ function collectFormData() {
     .map(el => el.value).join(', ');
 
   const motivationOtherText = document.getElementById('motivationOther').value.trim();
-  let motivations = getCheckboxes('motivation').replace('other', motivationOtherText ? `其他：${motivationOtherText}` : '').replace(/, $/, '').replace(/^, /, '');
+  let motivations = Array.from(document.querySelectorAll('input[name="motivation"]:checked'))
+    .map(el => el.value).filter(v => v !== 'other').join(', ');
 
   return {
     timestamp: new Date().toISOString(),
@@ -110,6 +111,7 @@ function collectFormData() {
     eff3: getRadio('eff3'),
     eff4: getRadio('eff4'),
     motivation: motivations,
+    motivationOther: motivationOtherText,
     expectation: getVal('expectation')
   };
 }

@@ -1,14 +1,14 @@
 // ===== CONFIGURATION =====
 // Change this to the name of your Google Sheet tab
-const SHEET_NAME = 'Responses';
+const SHEET_NAME = 'Sheet1';
 
 // ===== HEADERS =====
-// These must match the keys in the JSON sent from survey.js
+// These must match the existing Google Sheet column headers
 const HEADERS = [
-  '時間戳記', '姓名', '人事號', '身分', '訓練次數',
-  'PTX操作', 'PE操作', 'Consolidation操作', 'Thoracocentesis操作',
-  '選擇日期', '效能_探頭', '效能_影像判讀', '效能_主動使用', '效能_臨床整合',
-  '學習動機', '希望學到'
+  '時間戳記', '姓名', '人事號', '身分', '過去訓練',
+  '氣胸操作', '肋膜積水操作', '肺塌陷操作', 'Pigtail操作',
+  '可用時間', '探頭信心', '影像信心', '主動信心', '整合信心',
+  '學習動機', '學習動機(其他)', '期待與回饋'
 ];
 
 // ===== KEY MAP (JSON key → column index) =====
@@ -16,7 +16,7 @@ const KEY_MAP = {
   timestamp: 0, name: 1, empId: 2, role: 3, training: 4,
   ptx: 5, pe: 6, atel: 7, thoraco: 8, dates: 9,
   eff1: 10, eff2: 11, eff3: 12, eff4: 13,
-  motivation: 14, expectation: 15
+  motivation: 14, motivationOther: 15, expectation: 16
 };
 
 // ===== POST: Receive form submission =====
@@ -30,10 +30,6 @@ function doPost(e) {
       sheet = ss.insertSheet(SHEET_NAME);
       sheet.appendRow(HEADERS);
       sheet.setFrozenRows(1);
-      sheet.getRange(1, 1, 1, HEADERS.length)
-        .setBackground('#1a1a2e')
-        .setFontColor('#00D4FF')
-        .setFontWeight('bold');
     }
 
     const data = JSON.parse(e.postData.contents);

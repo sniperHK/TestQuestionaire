@@ -38,7 +38,8 @@ function checkPassword() {
   if (pw === DASHBOARD_PASSWORD) {
     document.getElementById('passwordGate').classList.add('hidden');
     document.getElementById('dashboardContent').classList.remove('hidden');
-    loadData();
+    // Wait one animation frame so the browser reflows before Chart.js reads dimensions
+    requestAnimationFrame(() => loadData());
   } else {
     failedAttempts++;
     if (failedAttempts >= MAX_ATTEMPTS) {
@@ -74,6 +75,8 @@ async function loadData() {
     renderStats(rows);
     renderCharts(rows);
     renderTable(rows);
+    // Force Chart.js to recalculate canvas dimensions after render
+    requestAnimationFrame(() => Object.values(charts).forEach(c => c.resize()));
   } catch (err) {
     console.error('Load error:', err);
     document.getElementById('responsesBody').innerHTML =

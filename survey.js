@@ -1,6 +1,6 @@
 // ===== CONFIG =====
 // Replace with your deployed Google Apps Script URL after setup
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyTLgLhHroRNScrqRAtx0ETJwnJ-Q5H4SCq_CvyZMCLeVcL-jltFnYGmMPv90Nv6aOz/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxzOO3irpaBVvFkqGmWjcxcEUrWtyI5rb0NcSgjDpvrVmscGRqRhgpZtTJpAMnPFx4/exec';
 
 // ===== STATE =====
 let currentStep = 1;

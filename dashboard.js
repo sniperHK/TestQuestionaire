@@ -1,6 +1,6 @@
 // ===== CONFIG =====
 // Replace with your deployed Google Apps Script URL
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyTLgLhHroRNScrqRAtx0ETJwnJ-Q5H4SCq_CvyZMCLeVcL-jltFnYGmMPv90Nv6aOz/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxzOO3irpaBVvFkqGmWjcxcEUrWtyI5rb0NcSgjDpvrVmscGRqRhgpZtTJpAMnPFx4/exec';
 
 // Dashboard password (change before deployment)
 const DASHBOARD_PASSWORD = 'echo2026';

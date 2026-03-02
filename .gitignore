@@ -1,0 +1,15 @@
+# 明文 secrets — 絕不提交
+.env
+.env.missing
+.env.local
+.env.*.local
+
+# age 私鑰 — 絕不提交
+age-key.txt
+
+# 加密版本 — 安全提交
+!.env.age
+!.env.*.age
+
+# Mac OS files
+.DS_Store

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chest Echo 課程 — 管理儀表板</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div class="container" id="passwordGate">
+  <div class="password-gate">
+    <span style="font-size:2.5rem">🔐</span>
+    <h2>管理者儀表板</h2>
+    <p>請輸入管理員密碼</p>
+    <div class="password-row">
+      <input class="form-input" type="password" id="pwInput" placeholder="密碼" onkeydown="if(event.key==='Enter')checkPassword()" />
+      <button class="btn btn-primary" onclick="checkPassword()">進入</button>
+    </div>
+    <div class="field-error" id="pwError" style="margin-top:0.5rem;text-align:center;">密碼錯誤</div>
+  </div>
+</div>
+
+<!-- DASHBOARD (hidden until authenticated) -->
+<div class="container hidden" id="dashboardContent">
+
+  <div class="dash-header">
+    <h1>🫁 Chest Echo 課程儀表板</h1>
+    <button class="dash-refresh" onclick="loadData()">↻ 重新整理</button>
+  </div>
+
+  <!-- STATS ROW -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-number" id="statTotal">—</div>
+      <div class="stat-label">總報名人數</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" id="statPGY">—</div>
+      <div class="stat-label">PGY</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" id="statResident">—</div>
+      <div class="stat-label">R1–R3</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" id="statFellow">—</div>
+      <div class="stat-label">Fellow</div>
+    </div>
+  </div>
+
+  <!-- CHARTS GRID -->
+  <div class="charts-grid">
+    <!-- Role Distribution -->
+    <div class="chart-card">
+      <div class="chart-title">身分分佈</div>
+      <div class="chart-container"><canvas id="chartRole"></canvas></div>
+    </div>
+
+    <!-- Date Registration -->
+    <div class="chart-card">
+      <div class="chart-title">實作課日期報名人數</div>
+      <div class="chart-container"><canvas id="chartDates"></canvas></div>
+    </div>
+
+    <!-- Self-Efficacy Radar -->
+    <div class="chart-card">
+      <div class="chart-title">自我效能感平均分（1–5）</div>
+      <div class="chart-container"><canvas id="chartEfficacy"></canvas></div>
+    </div>
+
+    <!-- Motivation -->
+    <div class="chart-card">
+      <div class="chart-title">學習動機分佈</div>
+      <div class="chart-container"><canvas id="chartMotivation"></canvas></div>
+    </div>
+  </div>
+
+  <!-- RESPONSES TABLE -->
+  <div class="card">
+    <div class="card-title">最新回覆明細</div>
+    <div class="data-table-wrapper">
+      <table class="data-table" id="responsesTable">
+        <thead>
+          <tr>
+            <th>時間</th><th>姓名</th><th>身分</th><th>訓練</th>
+            <th>選擇日期</th><th>效能均分</th><th>動機</th>
+          </tr>
+        </thead>
+        <tbody id="responsesBody">
+          <tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:2rem;">載入中...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin:2rem 0;font-size:0.8rem;color:var(--text-muted)">
+    <a href="index.html" style="color:var(--accent-blue);text-decoration:none;">← 返回問卷頁</a>
+  </div>
+
+</div>
+
+<script src="dashboard.js"></script>
+</body>
+</html>

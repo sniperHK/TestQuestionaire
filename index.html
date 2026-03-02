@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chest Echo 課程報名與課前問卷</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="container">
+  <!-- HEADER -->
+  <header class="site-header">
+    <span class="logo-icon">🫁</span>
+    <h1>Chest Echo 課程</h1>
+    <p>報名與課前問卷 | 2026 年 3 月</p>
+  </header>
+
+  <!-- PROGRESS BAR -->
+  <nav class="progress-bar" id="progressBar">
+    <div class="progress-step active" data-step="1">
+      <div class="step-dot">1</div>
+      <span class="step-label">基本資料</span>
+    </div>
+    <div class="progress-step" data-step="2">
+      <div class="step-dot">2</div>
+      <span class="step-label">操作經驗</span>
+    </div>
+    <div class="progress-step" data-step="3">
+      <div class="step-dot">3</div>
+      <span class="step-label">課程報名</span>
+    </div>
+    <div class="progress-step" data-step="4">
+      <div class="step-dot">4</div>
+      <span class="step-label">自評&動機</span>
+    </div>
+  </nav>
+
+  <!-- FORM -->
+  <form id="surveyForm" novalidate>
+
+    <!-- STEP 1: 基本資料 -->
+    <div class="step-panel" id="step1">
+      <div class="card">
+        <div class="card-title">A. 基本資料</div>
+
+        <div class="form-group">
+          <label class="form-label" for="name">您的名字是？<span class="required">*</span></label>
+          <input class="form-input" type="text" id="name" name="name" placeholder="請輸入姓名" required />
+          <div class="field-error" id="err-name">請填寫姓名</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="empId">人事號<span class="required">*</span></label>
+          <input class="form-input" type="text" id="empId" name="empId" placeholder="請輸入人事號" required />
+          <div class="field-error" id="err-empId">請填寫人事號</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="role">您目前的身分是？<span class="required">*</span></label>
+          <select class="form-select" id="role" name="role" required>
+            <option value="">── 請選擇 ──</option>
+            <option value="PGY1">PGY1</option>
+            <option value="PGY2（內科組）">PGY2（內科組）</option>
+            <option value="PGY2（不分組）">PGY2（不分組）</option>
+            <option value="R1">R1</option>
+            <option value="R2">R2</option>
+            <option value="R3">R3</option>
+            <option value="Fellow">Fellow</option>
+          </select>
+          <div class="field-error" id="err-role">請選擇身分</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="training">您過去是否曾接受過正式胸腔超音波訓練？<span class="required">*</span></label>
+          <select class="form-select" id="training" name="training" required>
+            <option value="">── 請選擇 ──</option>
+            <option value="無">無</option>
+            <option value="有，1 次">有，1 次</option>
+            <option value="有，2–5 次">有，2–5 次</option>
+            <option value="有，>5 次">有，&gt;5 次</option>
+          </select>
+          <div class="field-error" id="err-training">請選擇訓練次數</div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <span></span>
+        <button type="button" class="btn btn-primary" onclick="goStep(2)">下一步 →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: 操作經驗 -->
+    <div class="step-panel hidden" id="step2">
+      <div class="card">
+        <div class="card-title">A. 過去操作經驗</div>
+        <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1.25rem;">
+          您過去是否實際操作過以下項目？
+        </p>
+
+        <table class="clinical-table">
+          <thead>
+            <tr>
+              <th>項目</th>
+              <th>從未看過</th>
+              <th>在指導下操作過</th>
+              <th>可獨立完成</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="item-name">Pneumothorax</td>
+              <td><div class="option-chip"><input type="radio" name="ptx" id="ptx0" value="從未看過" required /><label for="ptx0">從未</label></div></td>
+              <td><div class="option-chip"><input type="radio" name="ptx" id="ptx1" value="在指導下操作過" /><label for="ptx1">指導下</label></div></td>
+              <td><div class="option-chip"><input type="radio" name="ptx" id="ptx2" value="可獨立完成" /><label for="ptx2">獨立</label></div></td>
+            </tr>
+            <tr>
+              <td class="item-name">Pleural Effusion</td>
+              <td><div class="option-chip"><input type="radio" name="pe" id="pe0" value="從未看過" required /><label for="pe0">從未</label></div></td>
+              <td><div class="option-chip"><input type="radio" name="pe" id="pe1" value="在指導下操作過" /><label for="pe1">指導下</label></div></td>
+              <td><div class="option-chip"><input type="radio" name="pe" id="pe2" value="可獨立完成" /><label for="pe2">獨立</label></div></td>
+            </tr>
+            <tr>
+              <td class="item-name">Atelectasis / Pneumonia</td>
+              <td><div class="option-chip"><input type="radio" name="atel" id="atel0" value="從未看過" required /><label for="atel0">從未</label></div></td>
+              <td><div class="option-chip"><input type="radio" name="atel" id="atel1" value="在指導下操作過" /><label for="atel1">指導下</label></div></td>
+              <td><div class="option-chip"><input type="radio" name="atel" id="atel2" value="可獨立完成" /><label for="atel2">獨立</label></div></td>
+            </tr>
+            <tr>
+              <td class="item-name">Thoracocentesis / Pigtail（echo 引導）</td>
+              <td><div class="option-chip"><input type="radio" name="thoraco" id="thoraco0" value="從未看過" required /><label for="thoraco0">從未</label></div></td>
+              <td><div class="option-chip"><input type="radio" name="thoraco" id="thoraco1" value="在指導下操作過" /><label for="thoraco1">指導下</label></div></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="field-error" id="err-clinical">請填寫所有操作經驗項目</div>
+      </div>
+
+      <div class="btn-row">
+        <button type="button" class="btn btn-secondary" onclick="goStep(1)">← 上一步</button>
+        <button type="button" class="btn btn-primary" onclick="goStep(3)">下一步 →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: 課程報名 -->
+    <div class="step-panel hidden" id="step3">
+      <div class="card">
+        <div class="card-title">B. 課程報名</div>
+
+        <div style="background:rgba(0,212,255,0.05);border:1px solid var(--border-color);border-radius:8px;padding:1rem;margin-bottom:1.5rem;font-size:0.88rem;line-height:1.7;color:var(--text-muted);">
+          📅 <strong style="color:var(--text-primary)">大堂課</strong>：3/9（一）中午 12:00–14:00 ｜ 國際會議廳<br/>
+          🔬 <strong style="color:var(--text-primary)">實作課</strong>：3 月第 2–4 週週三、週四下午約 2–4 點 ｜ 二樓檢查室 12 號門<br/>
+          每梯 4 名學員，請勾選<strong style="color:var(--accent-blue)">所有</strong>您可以出席的時間
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">請勾選您可以的時間（可複選）<span class="required">*</span></label>
+          <div class="options-grid">
+            <div class="option-chip"><input type="checkbox" name="dates" id="d311" value="3/11" /><label for="d311">3 月 11 日（三）</label></div>
+            <div class="option-chip"><input type="checkbox" name="dates" id="d312" value="3/12" /><label for="d312">3 月 12 日（四）</label></div>
+            <div class="option-chip"><input type="checkbox" name="dates" id="d318" value="3/18" /><label for="d318">3 月 18 日（三）</label></div>
+            <div class="option-chip"><input type="checkbox" name="dates" id="d319" value="3/19" /><label for="d319">3 月 19 日（四）</label></div>
+            <div class="option-chip"><input type="checkbox" name="dates" id="d325" value="3/25" /><label for="d325">3 月 25 日（三）</label></div>
+            <div class="option-chip"><input type="checkbox" name="dates" id="d326" value="3/26" /><label for="d326">3 月 26 日（四）</label></div>
+          </div>
+          <div class="field-error" id="err-dates">請至少選擇一個可出席時間</div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button type="button" class="btn btn-secondary" onclick="goStep(2)">← 上一步</button>
+        <button type="button" class="btn btn-primary" onclick="goStep(4)">下一步 →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: 自我效能感 + 學習動機 -->
+    <div class="step-panel hidden" id="step4">
+      <div class="card">
+        <div class="card-title">C. 自我效能感</div>
+        <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1.25rem;">
+          請評估你目前的信心程度（1 = 非常沒有信心，5 = 非常有信心）
+        </p>
+
+        <!-- Efficacy Q1 -->
+        <div class="form-group">
+          <label class="form-label">1. 我能正確選擇適合 chest echo 的探頭<span class="required">*</span></label>
+          <div class="star-group">
+            <span class="star-label">沒信心</span>
+            <div class="stars" id="stars1">
+              <input type="radio" name="eff1" id="e1s5" value="5" required /><label for="e1s5" title="5">★</label>
+              <input type="radio" name="eff1" id="e1s4" value="4" /><label for="e1s4" title="4">★</label>
+              <input type="radio" name="eff1" id="e1s3" value="3" /><label for="e1s3" title="3">★</label>
+              <input type="radio" name="eff1" id="e1s2" value="2" /><label for="e1s2" title="2">★</label>
+              <input type="radio" name="eff1" id="e1s1" value="1" /><label for="e1s1" title="1">★</label>
+            </div>
+            <span class="star-label">非常有信心</span>
+          </div>
+          <div class="field-error" id="err-eff1">請評分</div>
+        </div>
+
+        <!-- Efficacy Q2 -->
+        <div class="form-group">
+          <label class="form-label">2. 我能辨識正常與異常影像<span class="required">*</span></label>
+          <div class="star-group">
+            <span class="star-label">沒信心</span>
+            <div class="stars">
+              <input type="radio" name="eff2" id="e2s5" value="5" required /><label for="e2s5">★</label>
+              <input type="radio" name="eff2" id="e2s4" value="4" /><label for="e2s4">★</label>
+              <input type="radio" name="eff2" id="e2s3" value="3" /><label for="e2s3">★</label>
+              <input type="radio" name="eff2" id="e2s2" value="2" /><label for="e2s2">★</label>
+              <input type="radio" name="eff2" id="e2s1" value="1" /><label for="e2s1">★</label>
+            </div>
+            <span class="star-label">非常有信心</span>
+          </div>
+          <div class="field-error" id="err-eff2">請評分</div>
+        </div>
+
+        <!-- Efficacy Q3 -->
+        <div class="form-group">
+          <label class="form-label">3. 我在病房會主動考慮使用 chest echo 來輔助釐清病況<span class="required">*</span></label>
+          <div class="star-group">
+            <span class="star-label">沒信心</span>
+            <div class="stars">
+              <input type="radio" name="eff3" id="e3s5" value="5" required /><label for="e3s5">★</label>
+              <input type="radio" name="eff3" id="e3s4" value="4" /><label for="e3s4">★</label>
+              <input type="radio" name="eff3" id="e3s3" value="3" /><label for="e3s3">★</label>
+              <input type="radio" name="eff3" id="e3s2" value="2" /><label for="e3s2">★</label>
+              <input type="radio" name="eff3" id="e3s1" value="1" /><label for="e3s1">★</label>
+            </div>
+            <span class="star-label">非常有信心</span>
+          </div>
+          <div class="field-error" id="err-eff3">請評分</div>
+        </div>
+
+        <!-- Efficacy Q4 -->
+        <div class="form-group">
+          <label class="form-label">4. 我能將胸部超音波結果整合進臨床決策<span class="required">*</span></label>
+          <div class="star-group">
+            <span class="star-label">沒信心</span>
+            <div class="stars">
+              <input type="radio" name="eff4" id="e4s5" value="5" required /><label for="e4s5">★</label>
+              <input type="radio" name="eff4" id="e4s4" value="4" /><label for="e4s4">★</label>
+              <input type="radio" name="eff4" id="e4s3" value="3" /><label for="e4s3">★</label>
+              <input type="radio" name="eff4" id="e4s2" value="2" /><label for="e4s2">★</label>
+              <input type="radio" name="eff4" id="e4s1" value="1" /><label for="e4s1">★</label>
+            </div>
+            <span class="star-label">非常有信心</span>
+          </div>
+          <div class="field-error" id="err-eff4">請評分</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">D. 學習動機與期待</div>
+
+        <div class="form-group">
+          <label class="form-label">1. 您參加本課程的主要動機是？（可複選）</label>
+          <div class="options-grid">
+            <div class="option-chip"><input type="checkbox" name="motivation" id="mot1" value="提升臨床判斷能力" /><label for="mot1">提升臨床判斷能力</label></div>
+            <div class="option-chip"><input type="checkbox" name="motivation" id="mot2" value="為值班/急救做準備" /><label for="mot2">為值班／急救做準備</label></div>
+            <div class="option-chip"><input type="checkbox" name="motivation" id="mot3" value="應付考試或評核" /><label for="mot3">應付考試或評核</label></div>
+            <div class="option-chip"><input type="checkbox" name="motivation" id="mot4" value="純粹興趣" /><label for="mot4">純粹興趣</label></div>
+            <div class="option-chip"><input type="checkbox" name="motivation" id="mot5" value="other" onchange="toggleMotivationOther(this)" /><label for="mot5">其他</label></div>
+          </div>
+          <input class="form-input" type="text" id="motivationOther" name="motivationOther" placeholder="請說明其他動機" style="margin-top:0.5rem;display:none;" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="expectation">2. 您最希望從本課程學到的是？</label>
+          <textarea class="form-input" id="expectation" name="expectation" rows="3" placeholder="請自由填寫..." style="resize:vertical;"></textarea>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button type="button" class="btn btn-secondary" onclick="goStep(3)">← 上一步</button>
+        <button type="submit" class="btn btn-primary" id="submitBtn">送出問卷 ✓</button>
+      </div>
+    </div>
+
+  </form>
+
+  <!-- SUCCESS SCREEN (hidden by default) -->
+  <div id="successScreen" class="success-screen hidden">
+    <span class="success-icon">✅</span>
+    <h2>問卷已成功送出！</h2>
+    <p>感謝您的填寫，課程相關資訊將另行通知。</p>
+    <p style="margin-top:0.5rem;font-size:0.85rem;color:var(--text-muted)">如有問題請聯繫課程負責人</p>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="survey.js"></script>
+</body>
+</html>
